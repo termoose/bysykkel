@@ -12,7 +12,7 @@ const availabilityPath = "https://gbfs.urbansharing.com/oslobysykkel.no/station_
 
 type ClientInterface interface {
 	doAvailabilityRequest() (*http.Response, error)
-	doStationsRequest() (*http.Response, error)
+	doStationsRequest()     (*http.Response, error)
 }
 
 type Client struct {

@@ -4,10 +4,11 @@ import (
 	"bysykkel/api"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func main() {
-	r := gin.Default()
+	router := gin.Default()
 
 	client := api.NewAPIClient()
 	//data, _ := api.GetStationData(client)
@@ -19,11 +20,18 @@ func main() {
 
 	fmt.Printf("Data: %v\n", data)
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
+	router.LoadHTMLGlob("templates/*")
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{
+			"title": "hello lol",
+		})
+	})
+
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
 	})
 
-	r.Run()
+	router.Run()
 }
