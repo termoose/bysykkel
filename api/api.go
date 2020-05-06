@@ -73,7 +73,6 @@ func GetLocation(stations *stationsData, id int) (float32, float32, error) {
 		elemId, _ := strconv.Atoi(elem.Id)
 
 		if elemId == id {
-			fmt.Printf("Found lat long %d %d\n", elem.Latitude, elem.Longitude)
 			return elem.Latitude, elem.Longitude, nil
 		}
 	}
