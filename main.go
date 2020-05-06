@@ -11,8 +11,8 @@ func main() {
 	router := gin.Default()
 
 	client := api.NewAPIClient()
-	//data, _ := api.GetStationData(client)
-	data, err := api.GetStatusData(client)
+	data, err := api.GetStationData(client)
+	//data, err := api.GetStatusData(client)
 
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
@@ -24,6 +24,7 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
 			"title": "hello lol",
+			"stations": data.Data.Stations,
 		})
 	})
 
