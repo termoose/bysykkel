@@ -1,28 +1,23 @@
 <html>
 <body>
-<div id="mapdiv"></div>
-<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-<script>
-    map = new OpenLayers.Map("mapdiv");
-    map.addLayer(new OpenLayers.Layer.OSM());
-    var zoom=12;
-    var markers = new OpenLayers.Layer.Markers("Markers");
-    map.addLayer(markers);
 
-    {{range .stations}}
-        var lonLat = new OpenLayers.LonLat({{.Longitude}}, {{.Latitude}})
-            .transform(
-                new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-                map.getProjectionObject() // to Spherical Mercator Projection
-            );
-        markers.addMarker(new OpenLayers.Marker(lonLat));
+<table style="width:100%">
+    <tr>
+        <th>Stasjon</th>
+        <th>Ledig</th>
+        <th>Kapasitet</th>
+    </tr>
+    {{range .data}}
+    <tr>
+        <td><a href="map/{{.Id}}">{{.Name}}</a></td>
+        <td>{{.Available}}</td>
+        <td>{{.Capacity}}</td>
+    </tr>
     {{end}}
+</table>
 
-    map.setCenter (lonLat, zoom);
-</script>
-
-<!--{{range .stations}}-->
-<!--<p>{{.Name}}</p>-->
-<!--{{end}}-->
+{{range .data}}
+<p>{{.Name}}</p>
+{{end}}
 </body>
 </html>

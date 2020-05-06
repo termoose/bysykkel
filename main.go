@@ -1,36 +1,31 @@
 package main
 
 import (
-	"bysykkel/api"
-	"fmt"
+	"bysykkel/data"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func main() {
 	router := gin.Default()
 
-	client := api.NewAPIClient()
-	data, err := api.GetStationData(client)
-	//data, err := api.GetStatusData(client)
-
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-	}
-
-	fmt.Printf("Data: %v\n", data)
-
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
+		d, _ := data.GetFrontendData()
+
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": "hello lol",
-			"stations": data.Data.Stations,
+			"data": d,
 		})
 	})
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
+	router.GET("/map/:id", func(c *gin.Context) {
+		id, _ := strconv.Atoi(c.Param("id"))
+		lat, long := data.GetLocation(id)
+
+		c.HTML(http.StatusOK, "map.tmpl", gin.H{
+			"lat": lat,
+			"long": long,
 		})
 	})
 

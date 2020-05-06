@@ -9,8 +9,8 @@ type stationData struct {
 	Capacity  int     `json:"capacity"`
 }
 
-type availabilityData struct {
-	Id             string `json:"station_id"`
+type AvailabilityData struct {
+	Id             string `json:"station_id"` // FIXME: should not be string
 	IsInstalled    int    `json:"is_installed"`
 	IsRenting      int    `json:"is_renting"`
 	BikesAvailable int    `json:"num_bikes_available"`
@@ -24,7 +24,7 @@ type stationList struct {
 }
 
 type statusList struct {
-	Stations []availabilityData `json:"stations"`
+	Stations []AvailabilityData `json:"stations"`
 }
 
 type statusData struct {

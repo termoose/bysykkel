@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -65,6 +66,31 @@ func GetStatusData(client ClientInterface) (*statusData, error) {
 	}
 
 	return data, nil
+}
+
+func GetLocation(stations *stationsData, id int) (float32, float32) {
+	for _, elem := range stations.Data.Stations {
+		elemId, _ := strconv.Atoi(elem.Id)
+
+		if elemId == id {
+			fmt.Printf("Found lat long %d %d\n", elem.Latitude, elem.Longitude)
+			return elem.Latitude, elem.Longitude
+		}
+	}
+
+	return 0, 0
+}
+
+func GetAvailability(statuses *statusData, id int) *AvailabilityData {
+	for _, elem := range statuses.Data.Stations {
+		elemId, _ := strconv.Atoi(elem.Id)
+
+		if elemId == id {
+			return &elem
+		}
+	}
+
+	return nil
 }
 
 func (c *Client) doAvailabilityRequest() (*http.Response, error) {
