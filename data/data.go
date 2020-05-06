@@ -2,6 +2,7 @@ package data
 
 import (
 	"bysykkel/api"
+	"fmt"
 	"strconv"
 )
 
@@ -17,12 +18,12 @@ type Station struct {
 
 type Stations []Station
 
-func GetLocation(id int) (float32, float32) {
+func GetLocation(id int) (float32, float32, error) {
 	client := api.NewAPIClient()
 
 	stations, stationErr := api.GetStationData(client)
 	if stationErr != nil {
-		return 0, 0
+		return 0, 0, fmt.Errorf("could not get station data")
 	}
 
 	return api.GetLocation(stations, id)

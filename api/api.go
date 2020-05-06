@@ -68,17 +68,17 @@ func GetStatusData(client ClientInterface) (*statusData, error) {
 	return data, nil
 }
 
-func GetLocation(stations *stationsData, id int) (float32, float32) {
+func GetLocation(stations *stationsData, id int) (float32, float32, error) {
 	for _, elem := range stations.Data.Stations {
 		elemId, _ := strconv.Atoi(elem.Id)
 
 		if elemId == id {
 			fmt.Printf("Found lat long %d %d\n", elem.Latitude, elem.Longitude)
-			return elem.Latitude, elem.Longitude
+			return elem.Latitude, elem.Longitude, nil
 		}
 	}
 
-	return 0, 0
+	return 0, 0, fmt.Errorf("could not find location")
 }
 
 func GetAvailability(statuses *statusData, id int) *AvailabilityData {

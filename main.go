@@ -21,7 +21,11 @@ func main() {
 
 	router.GET("/map/:id", func(c *gin.Context) {
 		id, _ := strconv.Atoi(c.Param("id"))
-		lat, long := data.GetLocation(id)
+		lat, long, err := data.GetLocation(id)
+
+		if err != nil {
+			c.Redirect(http.StatusMovedPermanently, "/")
+		}
 
 		c.HTML(http.StatusOK, "map.tmpl", gin.H{
 			"lat": lat,
