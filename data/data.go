@@ -6,13 +6,13 @@ import (
 )
 
 type Station struct {
-	Id        int
-	Name      string
-	Address   string
-	Lat       float32
-	Lon       float32
-	Capacity  int
-	Available int
+	Id             int
+	Name           string
+	Address        string
+	Lat            float32
+	Lon            float32
+	BikesAvailable int
+	DocksAvailable int
 }
 
 type Stations []Station
@@ -48,13 +48,13 @@ func GetFrontendData() (Stations, error) {
 		avail := api.GetAvailability(statuses, id)
 
 		s := Station{
-			Id:        id,
-			Name:      station.Name,
-			Address:   station.Address,
-			Lat:       station.Latitude,
-			Lon:       station.Longitude,
-			Capacity:  station.Capacity,
-			Available: avail.BikesAvailable,
+			Id:             id,
+			Name:           station.Name,
+			Address:        station.Address,
+			Lat:            station.Latitude,
+			Lon:            station.Longitude,
+			BikesAvailable: avail.BikesAvailable,
+			DocksAvailable: avail.DocksAvailable,
 		}
 
 		result = append(result, s)

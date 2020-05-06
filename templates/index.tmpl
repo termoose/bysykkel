@@ -1,17 +1,31 @@
 <html>
-<body>
+<head>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+    }
+    th {
+        text-align: left;
+    }
+</style>
+</head>
 
+<body>
 <table style="width:100%">
     <tr>
         <th>Stasjon</th>
-        <th>Ledig</th>
-        <th>Kapasitet</th>
+        <th>Ledige sykler</th>
+        <th>Ledige låser</th>
     </tr>
     {{range .data}}
     <tr>
         <td><a href="map/{{.Id}}">{{.Name}}</a></td>
-        <td>{{.Available}}</td>
-        <td>{{.Capacity}}</td>
+        <td>{{.BikesAvailable}}</td>
+        <td>{{.DocksAvailable}}</td>
     </tr>
     {{end}}
 </table>
