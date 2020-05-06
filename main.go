@@ -2,8 +2,10 @@ package main
 
 import (
 	"bysykkel/data"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -33,5 +35,10 @@ func main() {
 		})
 	})
 
-	router.Run()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	router.Run(fmt.Sprintf(":%s", port))
 }
