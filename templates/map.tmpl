@@ -1,22 +1,26 @@
 <html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+</head>
 <body>
-<div id="mapdiv"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
+
+<div id="mapid" style="width: 100%; height: 100%;"></div>
 <script>
-    map = new OpenLayers.Map("mapdiv");
-    map.addLayer(new OpenLayers.Layer.OSM());
-    var zoom=17;
-    var markers = new OpenLayers.Layer.Markers("Markers");
-    map.addLayer(markers);
+    var mymap = L.map('mapid').setView([ {{.lat}}, {{.long}}], 15);
 
-    var lonLat = new OpenLayers.LonLat( {{.long}} , {{.lat}} )
-        .transform(
-            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-            map.getProjectionObject() // to Spherical Mercator Projection
-        );
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGVybW9vc2UiLCJhIjoiYUlfMGdJcyJ9.8JOnYvN4bCigWfN8sSVPMA', {
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(mymap);
 
-    markers.addMarker(new OpenLayers.Marker(lonLat));
-    map.setCenter (lonLat, zoom);
+    var marker = L.marker([ {{.lat}}, {{.long}}]).addTo(mymap);
+
 </script>
 </body>
 </html>
